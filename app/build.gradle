@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "com.movies"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "BASE_URL", "\"https://api.androidhive.info\""
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // butter knife
+    compile 'com.jakewharton:butterknife:7.0.1'
+    // image loading
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    // network support
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    // di dagger 2
+    compile 'com.google.dagger:dagger:2.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    // material design
+    compile 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion;
+    compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion;
+    compile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion;
+    // google architecture
+    compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion;
+    compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
+    annotationProcessor "android.arch.lifecycle:compiler:" + rootProject.archLifecycleVersion;
+    annotationProcessor "android.arch.persistence.room:compiler:" + rootProject.archRoomVersion;
+    // two side seekbar for filter
+    compile 'com.edmodo:rangebar:1.0.0'
+}

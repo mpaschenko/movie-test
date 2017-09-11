@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.movies.model.Movie" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recycler_view_item_height"
+        android:orientation="horizontal"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageview_preview"
+                android:layout_width="@dimen/movie_image_width"
+                android:layout_height="@dimen/movie_image_height"
+                android:layout_gravity="center_vertical"
+                app:url="@{movie.image}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/movie_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@{movie.title}" />
+
+                <TextView
+                    style="@style/movie_subheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@{Integer.toString(movie.releaseYear)}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        style="@style/movie_subheader"
+                        android:layout_width="@dimen/movie_ratings_text_width"
+                        android:layout_height="@dimen/movie_ratings_text_height"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_background"
+                        android:gravity="center"
+                        android:text="@{Double.toString(movie.rating)}" />
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        style="@style/movie_subheader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        app:join="@{movie.genre}"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

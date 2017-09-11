@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="item_horizontal_margin">10dp</dimen>
+    <dimen name="comment_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="range_bar_height">60dp</dimen>
+    <dimen name="range_value_text_size">30sp</dimen>
+    <dimen name="range_legend_text_size">15sp</dimen>
+    <dimen name="movie_image_width">90dp</dimen>
+    <dimen name="movie_image_height">90dp</dimen>
+    <dimen name="movie_ratings_text_width">30dp</dimen>
+    <dimen name="movie_ratings_text_height">30dp</dimen>
+    <dimen name="recycler_view_item_height">100dp</dimen>
+</resources>

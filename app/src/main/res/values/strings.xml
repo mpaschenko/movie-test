@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">movies</string>
+    <string name="loading">Loading</string>
+    <string name="action_filter_by_rating">Filter by RATING</string>
+    <string name="action_filter_by_year">Filter by YEAR</string>
+    <string name="action_filter_by_genre">Filter by GENRE</string>
+    <string name="action_no_filter">NO FILTER</string>
+</resources>

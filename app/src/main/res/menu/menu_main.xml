@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.a13softdev.currencyconverter.MainActivity"
+    >
+   <item
+       android:id="@+id/action_filter_by_rating"
+       android:title="@string/action_filter_by_rating"
+       app:showAsAction="never"
+       />
+
+   <item
+       android:id="@+id/action_filter_by_release_year"
+       android:title="@string/action_filter_by_year"
+       app:showAsAction="never"
+       />
+
+   <item
+       android:id="@+id/action_filter_by_genre"
+       android:title="@string/action_filter_by_genre"
+       app:showAsAction="never"
+       />
+
+   <item
+       android:id="@+id/action_no_filter"
+       android:title="@string/action_no_filter"
+       app:showAsAction="never"
+       />
+</menu>
