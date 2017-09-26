@@ -1,8 +1,6 @@
 package com.movies.db.entity;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.movies.model.Movie;
@@ -32,11 +30,13 @@ public class MovieRepository {
 
     private final WebService mWebService;
     private final MovieDao mMovieDao;
+    private final AppDatabase mDatabase;
 
     @Inject
     public MovieRepository(WebService webService, AppDatabase database) {
         mWebService = webService;
         mMovieDao = database.getMovieDao();
+        mDatabase = database;
     }
 
     public LiveData<List<MovieEntity>> getMovies() {
@@ -90,22 +90,23 @@ public class MovieRepository {
             @Override
             public void onResponse(Call<List<MovieWeb>> call, Response<List<MovieWeb>> response) {
                 List<MovieEntity> movies = new ArrayList<>();
-                for(Movie movie : response.body()) {
+                for (Movie movie : response.body()) {
                     movies.add(new MovieEntity(movie));
                 }
 
-                // clear database
-                if (clearData) {
-                    mMovieDao.deleteAll();
+                mDatabase.beginTransaction();
+                try {
+                    // clear database
+                    if (clearData) {
+                        mMovieDao.deleteAll();
+                    }
+                    // save to database
+                    mMovieDao.insertAll(movies);
+                    mDatabase.setTransactionSuccessful();
+                } finally {
+                    mDatabase.endTransaction();
                 }
-                // save to database
-                mMovieDao.insertAll(movies);
 
-              /*  try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
                 callback.moviesRefreshComplete();
             }
 

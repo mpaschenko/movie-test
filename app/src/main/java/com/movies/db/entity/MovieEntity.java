@@ -92,4 +92,10 @@ public class MovieEntity implements Movie {
     public void setGenre(List<String> genre) {
         this.genre = genre;
     }
+
+    /* added to use within adapter for correct content changes detection */
+    @Override
+    public int hashCode() {
+        return getMovieId();
+    }
 }

@@ -43,8 +43,38 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     }
 
     public void setMoviesList(final List<? extends Movie> moviesList) {
-        this.mMoviesList = moviesList;
-        this.notifyDataSetChanged();
+        if (mMoviesList == null) {
+            this.mMoviesList = moviesList;
+            notifyItemRangeInserted(0, moviesList.size());
+        } else {
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+                @Override
+                public int getOldListSize() {
+                    return mMoviesList.size();
+                }
+
+                @Override
+                public int getNewListSize() {
+                    return moviesList.size();
+                }
+
+                @Override
+                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                    return mMoviesList.get(oldItemPosition).hashCode() ==
+                            moviesList.get(newItemPosition).hashCode();
+                }
+
+                @Override
+                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                    Movie product = moviesList.get(newItemPosition);
+                    Movie old = moviesList.get(oldItemPosition);
+                    return product.hashCode() == old.hashCode();
+                }
+            });
+            mMoviesList = moviesList;
+            result.dispatchUpdatesTo(this);
+        }
+
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {

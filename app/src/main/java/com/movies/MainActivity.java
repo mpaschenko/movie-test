@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements RangeDialogFragment.RangeFilterListener, RadioDialogFragment.RadioFilterListener {
 
     MovieListFragment fragment;
+    MovieListViewModel viewModel;
 
     private static final int KEY_FILTER_BY_RATING = 256;
     private static final int KEY_FILTER_BY_RELEASE_YEAR = 512;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements RangeDialogFragme
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment, MovieListFragment.TAG).commit();
         }
+
+        viewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
     }
 
     @Override
@@ -42,27 +45,30 @@ public class MainActivity extends AppCompatActivity implements RangeDialogFragme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        MovieListViewModel viewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
-
-        int id = item.getItemId();
-        if (id == R.id.action_filter_by_rating) {
-            int minRating = (int) viewModel.getMinRating();
-            int maxRating = (int) viewModel.getMaxRating();
-            RangeDialogFragment.newInstance(minRating, maxRating, "Filter by rating", KEY_FILTER_BY_RATING).show(getFragmentManager(), RangeDialogFragment.TAG);
-        }
-        if (id == R.id.action_filter_by_release_year) {
-            int minYear = viewModel.getMinReleaseYear();
-            int maxYear = viewModel.getMaxReleaseYear();
-            RangeDialogFragment.newInstance(minYear, maxYear, "Filter by release year", KEY_FILTER_BY_RELEASE_YEAR).show(getFragmentManager(), RangeDialogFragment.TAG);
-        }
-        if (id == R.id.action_filter_by_genre) {
-            ArrayList<String> genres = viewModel.getAvailableGenres();
-            RadioDialogFragment.newInstance(genres, "Filter by genre", KEY_FILTER_BY_GENRE).show(getFragmentManager(), RadioDialogFragment.TAG);
-        }
-        if (id == R.id.action_no_filter) {
-            fragment.applyNoFilter();
+        switch (item.getItemId()) {
+            case R.id.action_filter_by_rating: {
+                int minRating = (int) viewModel.getMinRating();
+                int maxRating = (int) viewModel.getMaxRating();
+                RangeDialogFragment.newInstance(minRating, maxRating, "Filter by rating", KEY_FILTER_BY_RATING).show(getFragmentManager(), RangeDialogFragment.TAG);
+            }
+            break;
+            case R.id.action_filter_by_release_year: {
+                int minYear = viewModel.getMinReleaseYear();
+                int maxYear = viewModel.getMaxReleaseYear();
+                RangeDialogFragment.newInstance(minYear, maxYear, "Filter by release year", KEY_FILTER_BY_RELEASE_YEAR).show(getFragmentManager(), RangeDialogFragment.TAG);
+            }
+            break;
+            case R.id.action_filter_by_genre: {
+                ArrayList<String> genres = viewModel.getAvailableGenres();
+                RadioDialogFragment.newInstance(genres, "Filter by genre", KEY_FILTER_BY_GENRE).show(getFragmentManager(), RadioDialogFragment.TAG);
+            }
+            break;
+            case R.id.action_no_filter:
+                fragment.applyNoFilter();
+                break;
         }
         return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -80,6 +86,5 @@ public class MainActivity extends AppCompatActivity implements RangeDialogFragme
                 fragment.applyYearFilter(min, max);
                 break;
         }
-
     }
 }

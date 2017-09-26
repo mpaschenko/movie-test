@@ -4,13 +4,17 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.commonsware.cwac.saferoom.SafeHelperFactory;
 import com.movies.App;
 import com.movies.BuildConfig;
+import com.movies.Encryption;
 import com.movies.db.entity.AppDatabase;
-import com.movies.db.entity.MovieDao;
 import com.movies.network.WebService;
 
-import java.util.concurrent.Executor;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import javax.inject.Singleton;
 
@@ -38,11 +42,22 @@ public class DataModule {
         return application;
     }
 
-
+    @Singleton
     @Provides
     AppDatabase getDatabase() {
-        return Room.databaseBuilder(application,
-                AppDatabase.class, "movie-database").allowMainThreadQueries().build();
+        try {
+            String databaseKey = new Encryption().encrypt(BuildConfig.KEY);
+
+            SafeHelperFactory factory = new SafeHelperFactory(databaseKey.toCharArray());
+            return Room.databaseBuilder(application,
+                    AppDatabase.class, "movie-database").allowMainThreadQueries().openHelperFactory(factory).build();
+
+        } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     @Provides
